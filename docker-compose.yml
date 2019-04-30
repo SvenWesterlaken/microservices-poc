@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  invoice_management:
+    build: ./invoice_management
+    volumes:
+      - ./invoice_management:/usr/src/app
+    tty: true
+
+  notifications:
+    build: ./notifications
+    volumes:
+      - ./notifications:/usr/src/app
+    tty: true
+
+  workshop_management:
+    build: ./workshop_management
+    volumes:
+      - ./workshop_management:/usr/src/app
+    tty: true
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
