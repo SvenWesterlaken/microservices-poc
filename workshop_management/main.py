@@ -1,4 +1,5 @@
 import pika, os, json
+import numpy as np
 from retrying import retry
 
 @retry(stop_max_attempt_number=3, wait_fixed=10000)
@@ -12,7 +13,8 @@ def connectToRabbitMQ():
 
 with open(os.path.join(os.path.dirname(__file__), '../config/config.json'), 'r') as settings_file:
     settings = json.load(settings_file)
-    is_debug = settings['mode'] == "logging"
+    is_debug = settings['debug']
+    test_amount = range(settings['test_amount'])
 
 if __name__ == '__main__':
     connection, channel = connectToRabbitMQ()
@@ -21,13 +23,18 @@ if __name__ == '__main__':
 
     props = pika.BasicProperties(delivery_mode=2)  # make message persistent
 
-    for i in range(1,settings['amount_of_jobs'] + 1):
-        message = f'Maintainance Job {i}'
+    total_c = int(np.sum(settings['amount_of_jobs'])) * settings['test_amount']
+    c = 0
 
-        channel.basic_publish(exchange='', routing_key='invoice_queue', body=message, properties=props)
+    for i, job_amount in enumerate(settings['amount_of_jobs']):
+        for j in test_amount:
+            for n in range(1, job_amount + 1):
+                c += 1
+                message = f'[{c}/{total_c}] Maintainance Job {n}/{job_amount}'
 
-        if is_debug:
-            print('[x]', 'Sent:\t', message)
+                channel.basic_publish(exchange='', routing_key='invoice_queue', body=message, properties=props)
+
+                if is_debug: print('[x]', 'Sent:\t', message)
 
 
     connection.close()

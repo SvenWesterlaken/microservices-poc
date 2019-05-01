@@ -12,7 +12,7 @@ def connectToRabbitMQ():
 
 with open(os.path.join(os.path.dirname(__file__), '../config/config.json'), 'r') as settings_file:
     settings = json.load(settings_file)
-    is_debug = settings['mode'] == "logging"
+    is_debug = settings['debug']
 
 if __name__ == '__main__':
     connection, channel = connectToRabbitMQ()
