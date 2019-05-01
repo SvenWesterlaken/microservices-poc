@@ -1,23 +1,29 @@
-version: '3'
+version: '3.7'
 
 services:
   invoice_management:
-    build: ./invoice_management
+    build: ./_shared
     volumes:
       - ./invoice_management:/usr/src/app
     tty: true
+    depends_on:
+      - rabbitmq
 
   notifications:
-    build: ./notifications
+    build: ./_shared
     volumes:
       - ./notifications:/usr/src/app
     tty: true
+    depends_on:
+      - rabbitmq
 
   workshop_management:
-    build: ./workshop_management
+    build: ./_shared
     volumes:
       - ./workshop_management:/usr/src/app
     tty: true
+    depends_on:
+      - rabbitmq
 
   rabbitmq:
     image: rabbitmq:3-management
