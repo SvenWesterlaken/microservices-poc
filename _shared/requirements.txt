@@ -1,3 +1,4 @@
 pika
 retrying
 colorama
+numpy

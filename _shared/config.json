@@ -1,5 +1,6 @@
 {
-  "amount_of_jobs": 30,
+  "test_amount": 6,
+  "amount_of_jobs": [10, 20, 30, 40],
   "sleeptime": 2,
-  "mode": ""
+  "debug": false
 }
