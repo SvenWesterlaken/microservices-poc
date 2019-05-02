@@ -3,14 +3,19 @@ version: '3.7'
 services:
   invoice_management:
     build: ./_shared
+    image: svenwstrl/pitstop-poc
     volumes:
       - ./invoice_management:/usr/src/app
     tty: true
     depends_on:
       - rabbitmq
+    deploy:
+      # replace for testing:
+      replicas: 1
 
   notifications:
     build: ./_shared
+    image: svenwstrl/pitstop-poc
     volumes:
       - ./notifications:/usr/src/app
     tty: true
@@ -19,6 +24,7 @@ services:
 
   workshop_management:
     build: ./_shared
+    image: svenwstrl/pitstop-poc
     volumes:
       - ./workshop_management:/usr/src/app
     tty: true
